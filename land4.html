@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>نموذج متعدد المراحل</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #ffffff;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .image-section {
+      flex: 1 1 300px;
+      background: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f') center/cover no-repeat;
+      min-height: 300px;
+      transition: all 0.5s ease;
+    }
+
+    .form-section {
+      flex: 1 1 600px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .step {
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      animation-duration: 0.5s;
+    }
+
+    .step.active {
+      display: flex;
+      opacity: 1;
+      transform: translateX(0);
+      animation: fadeInSlide 0.5s ease;
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    input, select, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input, select {
+      border: 1px solid #ccc;
+      background-color: white;
+    }
+
+    button {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1976d2;
+    }
+
+    .confirmation {
+      text-align: center;
+      font-size: 20px;
+      color: green;
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+ .image-section {
+    height: 200px;
+  }
+ 
+
+    }
+    .form-description {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: spin 3s linear infinite;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-button img {
+  width: 30px;
+  height: 30px;
+}
+
+/* Animation de rotation continue */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ✅ Option alternative : rotation au survol uniquement
+   ❌ À utiliser *à la place* de `.animation` si tu préfères :
+.whatsapp-button:hover {
+  transform: rotate(360deg);
+}
+*/
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="image-section" id="imageSection"></div>
+
+    <div class="form-section" >
+       
+              <p class="form-description" >املأ هذا النموذج لتحصل على استشارتك المجانية خلال دقائق.</p>
+            <h2>نموذج التسجيل</h2>
+           
+
+      
+     
+       
+
+
+      <form id="multiStepForm">
+        <!-- Step 1 -->
+        <div class="step active">
+          <input type="text" name="name" placeholder="الاسم الكامل" required />
+          <input type="tel" name="phone" placeholder="رقم الهاتف" required />
+          <input type="email" name="email" placeholder="البريد الإلكتروني" required />
+          <button type="button" onclick="nextStep()">إرسال</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step">
+          <input type="text" placeholder="ما هي مهنتك؟" required />
+          <button type="button" onclick="nextStep()">التالي</button>
+        </div>
+
+        <!-- Step 3: Nouvelle question sous forme de dropdown -->
+        <div class="step">
+          <select required>
+            <option value="">اختر مجال اهتمامك</option>
+            <option value="التسويق">التسويق</option>
+            <option value="البرمجة">البرمجة</option>
+            <option value="التصميم">التصميم</option>
+            <option value="ريادة الأعمال">ريادة الأعمال</option>
+          </select>
+          <button type="button" onclick="nextStep()">التالي</button>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step">
+          <input type="text" placeholder="ما هو هدفك من هذا النموذج؟" required />
+          <button type="button" onclick="showConfirmation()">إرسال نهائي</button>
+        </div>
+      </form>
+
+      <div class="confirmation" id="confirmation">
+        ✅ تم إرسال النموذج بنجاح! شكراً لك.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 0;
+    const steps = document.querySelectorAll(".step");
+    const imageSection = document.getElementById("imageSection");
+
+    function nextStep() {
+      steps[currentStep].classList.remove("active");
+      currentStep++;
+      if (currentStep < steps.length) {
+        steps[currentStep].classList.add("active");
+
+        if (currentStep > 0) {
+          imageSection.style.display = "none";
+        }
+      }
+    }
+
+    function showConfirmation() {
+      document.getElementById("multiStepForm").style.display = "none";
+      document.getElementById("confirmation").style.display = "block";
+    }
+  </script>
+  <a href="https://wa.me/21612345678" target="_blank" class="whatsapp-button" aria-label="WhatsApp">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
+
+</body>
+</html>
